@@ -1,9 +1,9 @@
-<form [formGroup]="form" #formDir="ngForm">
+<form [formGroup]="form" (ngSubmit)="onSubmit()" #formDir="ngForm">
     <ul class="tabs">
-        <li>Identificação</li>
-        <li>Endereço</li>
-        <li>Conta</li>
-        <li>Telefone</li>
+        <li [class.error]="hasErrorInTab(0)" [class.active]="currentTab === 0" (click)="currentTab = 0">Identificação</li>
+        <li [class.error]="hasErrorInTab(1)" [class.active]="currentTab === 1" (click)="currentTab = 1">Endereço</li>
+        <li [class.error]="hasErrorInTab(2)" [class.active]="currentTab === 2" (click)="currentTab = 2">Conta</li>
+        <li [class.error]="hasErrorInTab(3)" [class.active]="currentTab === 3" (click)="currentTab = 3">Telefone</li>
     </ul>
 
     <div *ngIf="currentTab === 0" formGroupName="identificacao">
