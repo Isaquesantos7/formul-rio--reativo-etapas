@@ -1,4 +1,4 @@
-import { NgFor } from '@angular/common';
+import { NgFor, NgIf } from '@angular/common';
 import { Component } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 
@@ -7,7 +7,8 @@ import { FormArray, FormBuilder, FormGroup, ReactiveFormsModule, Validators } fr
   standalone: true,
   imports: [
     ReactiveFormsModule,
-    NgFor
+    NgFor,
+    NgIf
   ],
   templateUrl: './form.component.html',
   styleUrl: './form.component.scss'

@@ -11,30 +11,48 @@
         <div>
             <label for="nome">Nome da Mantenedora:</label>
             <input type="text" name="nome" id="nome" formControlName="nome">
+            <div *ngIf="form.get('identificacao.nome')?.errors?.['required'] && form.touched || form.get('identificacao.nome')?.errors?.['required'] && formDir.submitted">
+                <span>Campo é obrigatório!</span>
+            </div>
         </div>
         <div>
             <label for="codigoRegiao">Codígo da Região:</label>
             <input type="text" name="codigoRegiao" id="codigoRegiao" formControlName="codigoRegiao">
+            <div *ngIf="form.get('identificacao.codigoRegiao')?.errors?.['required'] && form.touched || form.get('identificacao.codigoRegiao')?.errors?.['required'] && formDir.submitted">
+                <span>Campo é obrigatório!</span>
+            </div>
         </div>
     </div>
 
     <div formGroupName="endereco">
         <h3>Endereço</h3>
         <div>
-          <label for="rua">Rua:</label>
-          <input id="rua" name="rua" formControlName="rua">
+            <label for="rua">Rua:</label>
+            <input id="rua" name="rua" formControlName="rua">
+            <div *ngIf="form.get('endereco.rua')?.errors?.['required'] && form.touched || form.get('endereco.rua')?.errors?.['required'] && formDir.submitted">
+                <span>Campo é obrigatório!</span>
+            </div>
         </div>
         <div>
-          <label for="cidade">Cidade:</label>
-          <input id="cidade" name="cidade" formControlName="cidade">
+            <label for="cidade">Cidade:</label>
+            <input id="cidade" name="cidade" formControlName="cidade">
+            <div *ngIf="form.get('endereco.cidade')?.errors?.['required'] && form.touched || form.get('endereco.cidade')?.errors?.['required'] && formDir.submitted">
+                <span>Campo é obrigatório!</span>
+            </div>
         </div>
         <div>
-          <label for="estado">Estado:</label>
-          <input id="estado" name="estado" formControlName="estado">
+            <label for="estado">Estado:</label>
+            <input id="estado" name="estado" formControlName="estado">
+            <div *ngIf="form.get('endereco.estado')?.errors?.['required'] && form.touched || form.get('endereco.estado')?.errors?.['required'] && formDir.submitted">
+                <span>Campo é obrigatório!</span>
+            </div>
         </div>
         <div>
-          <label for="cep">CEP:</label>
-          <input id="cep" name="cep" formControlName="cep">
+            <label for="cep">CEP:</label>
+            <input id="cep" name="cep" formControlName="cep">
+            <div *ngIf="form.get('endereco.cep')?.errors?.['required'] && form.touched || form.get('endereco.cep')?.errors?.['required'] && formDir.submitted">
+                <span>Campo é obrigatório!</span>
+            </div>
         </div>
     </div>
 
@@ -43,18 +61,30 @@
         <div>
             <label for="agencia">Agência:</label>
             <input type="text" name="agencia" id="agencia" formControlName="agencia">
+            <div *ngIf="form.get('conta.agencia')?.errors?.['required'] && form.touched || form.get('conta.agencia')?.errors?.['required'] && formDir.submitted">
+                <span>Campo é obrigatório!</span>
+            </div>
         </div>
         <div>
             <label for="numero">Nº Conta:</label>
             <input type="text" name="numero" id="numero" formControlName="numero">
+            <div *ngIf="form.get('conta.numero')?.errors?.['required'] && form.touched || form.get('conta.numero')?.errors?.['required'] && formDir.submitted">
+                <span>Campo é obrigatório!</span>
+            </div>
         </div>
         <div>
             <label for="tipoConta">Tipo Conta:</label>
             <input type="text" name="tipoConta" id="tipoConta" formControlName="tipoConta">
+            <div *ngIf="form.get('conta.tipoConta')?.errors?.['required'] && form.touched || form.get('conta.tipoConta')?.errors?.['required'] && formDir.submitted">
+                <span>Campo é obrigatório!</span>
+            </div>
         </div>
         <div>
             <label for="nomeBanco">Nome Banco:</label>
             <input type="text" name="nomeBanco" id="nomeBanco" formControlName="nomeBanco">
+            <div *ngIf="form.get('conta.nomeBanco')?.errors?.['required'] && form.touched || form.get('conta.nomeBanco')?.errors?.['required'] && formDir.submitted">
+                <span>Campo é obrigatório!</span>
+            </div>
         </div>
     </div>
 
@@ -77,7 +107,7 @@
                         <input type="text" formControlName="numeroTelefone">
                     </td>
                     <td>
-                        <button type="button">Remover</button>
+                        <button type="button" (click)="removeTelefone(i)">Remover</button>
                     </td>
                 </tr>
             </tbody>
