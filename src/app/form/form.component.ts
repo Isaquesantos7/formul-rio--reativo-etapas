@@ -68,6 +68,27 @@ export class FormComponent {
     this.currentTab--;
   }
 
+  public isGroupValidAndFilled(group: FormGroup): boolean {
+    for (let control in group.controls) {
+      if (group.controls[control].invalid || group.controls[control].value === '') {
+        return false;
+      }
+    }
+    return true;
+  }
+
+  public isFormArrayValidAndFilled(array: FormArray): boolean {
+    if (array.length === 0) {
+      return false;
+    }
+    for (let control of array.controls) {
+      if (control.invalid || control.value.tipo === '' || control.value.numero === '') {
+        return false;
+      }
+    }
+    return true;
+  }
+
   public onSubmit(): void {
     if (this.form.invalid) {
       return;
