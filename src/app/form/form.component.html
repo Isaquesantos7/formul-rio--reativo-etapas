@@ -117,7 +117,7 @@
 
     <div class="buttons">
         <button type="button" (click)="prevTab()" [disabled]="currentTab === 0">Anterior</button>
-        <button type="button" (click)="nextTab()" [disabled]="currentTab === 3">Próximo</button>
+        <button type="button" (click)="nextTab()" [disabled]="!isCurrentTabValid()" *ngIf="currentTab < 3">Próximo</button>
         <button type="submit" (click)="onSubmit()" [disabled]="form.invalid">Salvar</button>
     </div>
 </form>

@@ -89,6 +89,21 @@ export class FormComponent {
     return true;
   }
 
+  public isCurrentTabValid(): boolean {
+    switch(this.currentTab) {
+      case 0:
+        return this.isGroupValidAndFilled(this.form.get('identificacao') as FormGroup);
+      case 1:
+        return this.isGroupValidAndFilled(this.form.get('endereco') as FormGroup);
+      case 2: 
+        return this.isGroupValidAndFilled(this.form.get('conta') as FormGroup);
+      case 3:
+        return this.isFormArrayValidAndFilled(this.telefone);
+      default:
+        return false;
+    }
+  }
+
   public onSubmit(): void {
     if (this.form.invalid) {
       return;
