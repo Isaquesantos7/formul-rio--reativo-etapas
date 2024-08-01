@@ -16,6 +16,7 @@ import { FormArray, FormBuilder, FormGroup, ReactiveFormsModule, Validators } fr
 
 export class FormComponent {
   protected form!: FormGroup;
+  protected currentTab: number = 0;
   
   constructor(private formBuildService: FormBuilder) {
     this.form = this.formBuildService.group({
@@ -59,8 +60,16 @@ export class FormComponent {
     this.telefone.removeAt(index);
   }
 
+  public nextTab(): void {
+    this.currentTab++;
+  }
+
+  public prevTab(): void {
+    this.currentTab--;
+  }
+
   public onSubmit(): void {
-    if (this.form.value) {
+    if (this.form.invalid) {
       return;
     } 
 
