@@ -1,4 +1,4 @@
-<form>
+<form [formGroup]="form" #formDir="ngForm">
     <ul class="tabs">
         <li>Identificação</li>
         <li>Endereço</li>
@@ -6,59 +6,59 @@
         <li>Setores</li>
     </ul>
 
-    <div>
+    <div formGroupName="identificacao">
         <h3>Identificação</h3>
         <div>
             <label for="nome">Nome da Mantenedora:</label>
-            <input type="text" name="nome" id="nome">
+            <input type="text" name="nome" id="nome" formControlName="nome">
         </div>
         <div>
             <label for="codigoRegiao">Codígo da Região:</label>
-            <input type="text" name="codigoRegiao" id="codigoRegiao">
+            <input type="text" name="codigoRegiao" id="codigoRegiao" formControlName="codigoRegiao">
         </div>
     </div>
 
-    <div>
+    <div formGroupName="endereco">
         <h3>Endereço</h3>
         <div>
           <label for="rua">Rua:</label>
-          <input id="rua" name="rua">
+          <input id="rua" name="rua" formControlName="rua">
         </div>
         <div>
           <label for="cidade">Cidade:</label>
-          <input id="cidade" name="cidade">
+          <input id="cidade" name="cidade" formControlName="cidade">
         </div>
         <div>
           <label for="estado">Estado:</label>
-          <input id="estado" name="estado">
+          <input id="estado" name="estado" formControlName="estado">
         </div>
         <div>
           <label for="cep">CEP:</label>
-          <input id="cep" name="estado">
+          <input id="cep" name="cep" formControlName="cep">
         </div>
     </div>
 
-    <div>
+    <div formGroupName="conta">
         <h3>Conta Bancária</h3>
         <div>
             <label for="agencia">Agência:</label>
-            <input type="text" name="agencia" id="agencia">
+            <input type="text" name="agencia" id="agencia" formControlName="agencia">
         </div>
         <div>
             <label for="numero">Nº Conta:</label>
-            <input type="text" name="numero" id="numero">
+            <input type="text" name="numero" id="numero" formControlName="numero">
         </div>
         <div>
             <label for="tipoConta">Tipo Conta:</label>
-            <input type="text" name="tipoConta" id="tipoConta">
+            <input type="text" name="tipoConta" id="tipoConta" formControlName="tipoConta">
         </div>
         <div>
             <label for="nomeBanco">Nome Banco:</label>
-            <input type="text" name="nomeBanco" id="nomeBanco">
+            <input type="text" name="nomeBanco" id="nomeBanco" formControlName="nomeBanco">
         </div>
     </div>
 
-    <div>
+    <div formArrayName="telefone">
         <h3>Telefone:</h3>
         <table>
             <thead>
@@ -69,12 +69,12 @@
                 </tr>
             </thead>
             <tbody>
-                <tr>
+                <tr *ngFor="let tel of telefone.controls; let i = index" [formGroupName]="i">
                     <td>
-                        <input type="text">
+                        <input type="text" formControlName="ddd">
                     </td>
                     <td>
-                        <input type="text">
+                        <input type="text" formControlName="numeroTelefone">
                     </td>
                     <td>
                         <button type="button">Remover</button>
@@ -82,12 +82,12 @@
                 </tr>
             </tbody>
         </table>
-        <button type="button">Adicionar</button>
+        <button type="button" (click)="addTelefone()">Adicionar</button>
     </div>
 
     <div class="buttons">
         <button type="button">Anterior</button>
         <button type="button">Próximo</button>
-        <button type="submit">Salvar</button>
+        <button type="submit" (click)="onSubmit()">Salvar</button>
     </div>
 </form>
