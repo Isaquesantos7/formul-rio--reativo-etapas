@@ -109,4 +109,30 @@ form {
             }
         }
     }
+
+    .tabs {
+        list-style: none;
+        padding: 0;
+        margin: 0 0 1rem 0;
+        display: flex;
+        justify-content: space-between;
+    
+        li {
+            padding: 0.5rem 1rem;
+            cursor: pointer;
+            border: 1px solid #ccc;
+            border-radius: 5px 5px 0 0;
+            background-color: #e9ecef;
+        
+            &.active {
+                background-color: #007bff;
+                color: white;
+            }
+        
+            &.error {
+                border-color: red;
+                background-color: #f8d7da;
+            }
+        }
+    }
 }
