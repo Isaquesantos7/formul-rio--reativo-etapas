@@ -1,6 +1,7 @@
 import { NgFor, NgIf } from '@angular/common';
 import { Component } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { dataForm } from './T';
 
 @Component({
   selector: 'app-form',
@@ -40,7 +41,9 @@ export class FormComponent {
       }),
 
       telefone: this.formBuildService.array([])
-    })
+    });
+
+    this.insertingData(dataForm);
   }
 
   get telefone() {
@@ -117,6 +120,18 @@ export class FormComponent {
       default:
         return false;
     }
+  }
+
+  public insertingData(data: any): void {
+    this.form.patchValue(data);
+
+    /*
+      Case was list.
+    */
+    this.telefone.clear();
+    data.telefone.forEach((tel: any) => {
+      this.telefone.push(this.formBuildService.group(tel));
+    });
   }
 
   public onSubmit(): void {
