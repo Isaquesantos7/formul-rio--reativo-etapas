@@ -38,7 +38,7 @@ export class FormComponent {
       telefone: this.formBuildService.array([])
     });
 
-    this.insertingData(dataForm);
+    // this.insertingData(dataForm);
   }
 
   get telefone() {
@@ -75,7 +75,7 @@ export class FormComponent {
       numero: ['', Validators.required],
       tipoConta: ['', Validators.required],
       nomeBanco: ['', Validators.required],
-      transacoes: this.formBuildService.array([])  // Lista de transações para cada conta
+      transacoes: this.formBuildService.array([])
     });
 
     this.conta.push(contaForm);
@@ -160,7 +160,6 @@ export class FormComponent {
   }
 
   public insertingData(dataForm: any): void {
-    // Atualiza os dados principais
     this.form.patchValue({
       identificacao: dataForm.identificacao,
       endereco: dataForm.endereco

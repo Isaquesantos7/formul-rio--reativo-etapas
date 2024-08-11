@@ -61,58 +61,58 @@
         <button type="button" (click)="addConta()">Adicionar Conta</button>
     
         <div *ngFor="let contaGroup of getContasControls(); let i = index" [formGroupName]="i">
-          <div>
-            <label for="agencia">Agência:</label>
-            <input type="text" name="agencia" formControlName="agencia">
-            <div *ngIf="contaGroup.get('agencia')?.errors?.['required'] && form.touched">
-                <span>Campo é obrigatório!</span>
-            </div>
-          </div>
-          <div>
-            <label for="numero">Nº Conta:</label>
-            <input type="text" name="numero" formControlName="numero">
-            <div *ngIf="contaGroup.get('numero')?.errors?.['required'] && form.touched">
-                <span>Campo é obrigatório!</span>
-            </div>
-          </div>
-          <div>
-            <label for="tipoConta">Tipo Conta:</label>
-            <input type="text" name="tipoConta" formControlName="tipoConta">
-            <div *ngIf="contaGroup.get('tipoConta')?.errors?.['required'] && form.touched">
-                <span>Campo é obrigatório!</span>
-            </div>
-          </div>
-          <div>
-            <label for="nomeBanco">Nome Banco:</label>
-            <input type="text" name="nomeBanco" formControlName="nomeBanco">
-            <div *ngIf="contaGroup.get('nomeBanco')?.errors?.['required'] && form.touched">
-                <span>Campo é obrigatório!</span>
-            </div>
-          </div>
-    
-          <!-- Transações -->
-          <div formArrayName="transacoes">
-            <h4>Transações</h4>
-            <button type="button" (click)="addTransacao(i)">Adicionar Transação</button>
-    
-            <div *ngFor="let transacao of getTransacoesControls(contaGroup); let j = index" [formGroupName]="j">
-              <div>
-                <label for="valor">Valor:</label>
-                <input type="text" formControlName="valor">
-                <div *ngIf="transacao.get('valor')?.errors?.['required'] && form.touched">
+            <div>
+                <label for="agencia">Agência:</label>
+                <input type="text" name="agencia" formControlName="agencia">
+                <div *ngIf="contaGroup.get('agencia')?.errors?.['required'] && form.touched">
                     <span>Campo é obrigatório!</span>
                 </div>
-              </div>
-              <div>
-                <label for="data">Data:</label>
-                <input type="text" formControlName="data">
-                <div *ngIf="transacao.get('data')?.errors?.['required'] && form.touched">
+            </div>
+            <div>
+                <label for="numero">Nº Conta:</label>
+                <input type="text" name="numero" formControlName="numero">
+                <div *ngIf="contaGroup.get('numero')?.errors?.['required'] && form.touched">
                     <span>Campo é obrigatório!</span>
                 </div>
-              </div>
-              <button type="button" (click)="removeTransacao(i, j)">Remover Transação</button>
             </div>
-          </div>
+            <div>
+                <label for="tipoConta">Tipo Conta:</label>
+                <input type="text" name="tipoConta" formControlName="tipoConta">
+                <div *ngIf="contaGroup.get('tipoConta')?.errors?.['required'] && form.touched">
+                    <span>Campo é obrigatório!</span>
+                </div>
+            </div>
+            <div>
+                <label for="nomeBanco">Nome Banco:</label>
+                <input type="text" name="nomeBanco" formControlName="nomeBanco">
+                <div *ngIf="contaGroup.get('nomeBanco')?.errors?.['required'] && form.touched">
+                    <span>Campo é obrigatório!</span>
+                </div>
+            </div>
+    
+            <!-- Transações -->
+            <div formArrayName="transacoes">
+                <h4>Transações</h4>
+                <button type="button" (click)="addTransacao(i)">Adicionar Transação</button>
+        
+                <div *ngFor="let transacao of getTransacoesControls(contaGroup); let j = index" [formGroupName]="j">
+                    <div>
+                        <label for="valor">Valor:</label>
+                        <input type="text" formControlName="valor">
+                        <div *ngIf="transacao.get('valor')?.errors?.['required'] && form.touched">
+                            <span>Campo é obrigatório!</span>
+                        </div>
+                    </div>
+                    <div>
+                        <label for="data">Data:</label>
+                        <input type="text" formControlName="data">
+                        <div *ngIf="transacao.get('data')?.errors?.['required'] && form.touched">
+                            <span>Campo é obrigatório!</span>
+                        </div>
+                    </div>
+                    <button type="button" (click)="removeTransacao(i, j)">Remover Transação</button>
+                </div>
+            </div>
           
           <button type="button" (click)="removeConta(i)">Remover Conta</button>
         </div>
@@ -121,29 +121,35 @@
     <div *ngIf="currentTab === 3" formArrayName="telefone">
         <h3>Telefone:</h3>
         <table>
-          <thead>
-            <tr>
-              <th>DDD</th>
-              <th>Número</th>
-              <th>Ações</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr *ngFor="let tel of telefone.controls; let i = index" [formGroupName]="i">
-              <td>
-                <input type="text" formControlName="ddd">
-              </td>
-              <td>
-                <input type="text" formControlName="numeroTelefone">
-              </td>
-              <td>
-                <button type="button" (click)="removeTelefone(i)">Remover</button>
-              </td>
-            </tr>
-          </tbody>
+            <thead>
+                <tr>
+                <th>DDD</th>
+                <th>Número</th>
+                <th>Ações</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let tel of telefone.controls; let i = index" [formGroupName]="i">
+                    <td>
+                        <input type="text" formControlName="ddd">
+                        <div *ngIf="tel.get('ddd')?.errors?.['required'] && form.touched">
+                            <span>Campo é obrigatório!</span>
+                        </div>
+                    </td>
+                    <td>
+                        <input type="text" formControlName="numeroTelefone">
+                        <div *ngIf="tel.get('numeroTelefone')?.errors?.['required'] && form.touched">
+                            <span>Campo é obrigatório!</span>
+                        </div>
+                    </td>
+                    <td>
+                        <button type="button" (click)="removeTelefone(i)">Remover</button>
+                    </td>
+                </tr>
+            </tbody>
         </table>
         <button type="button" (click)="addTelefone()">Adicionar</button>
-      </div>
+    </div>
 
     <div class="buttons">
         <button type="button" (click)="prevTab()" [disabled]="currentTab === 0">Anterior</button>
