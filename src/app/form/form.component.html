@@ -11,14 +11,14 @@
         <div>
             <label for="nome">Nome da Mantenedora:</label>
             <input type="text" name="nome" id="nome" formControlName="nome">
-            <div *ngIf="form.get('identificacao.nome')?.errors?.['required'] && form.touched || form.get('identificacao.nome')?.errors?.['required'] && formDir.submitted">
+            <div *ngIf="form.get('identificacao.nome')?.errors?.['required'] && form.touched || form.get('identificacao.nome')?.errors?.['required'] && form.touched">
                 <span>Campo é obrigatório!</span>
             </div>
         </div>
         <div>
             <label for="codigoRegiao">Codígo da Região:</label>
             <input type="text" name="codigoRegiao" id="codigoRegiao" formControlName="codigoRegiao">
-            <div *ngIf="form.get('identificacao.codigoRegiao')?.errors?.['required'] && form.touched || form.get('identificacao.codigoRegiao')?.errors?.['required'] && formDir.submitted">
+            <div *ngIf="form.get('identificacao.codigoRegiao')?.errors?.['required'] && form.touched || form.get('identificacao.codigoRegiao')?.errors?.['required'] && form.touched">
                 <span>Campo é obrigatório!</span>
             </div>
         </div>
@@ -29,91 +29,121 @@
         <div>
             <label for="rua">Rua:</label>
             <input id="rua" name="rua" formControlName="rua">
-            <div *ngIf="form.get('endereco.rua')?.errors?.['required'] && form.touched || form.get('endereco.rua')?.errors?.['required'] && formDir.submitted">
+            <div *ngIf="form.get('endereco.rua')?.errors?.['required'] && form.touched || form.get('endereco.rua')?.errors?.['required'] && form.touched">
                 <span>Campo é obrigatório!</span>
             </div>
         </div>
         <div>
             <label for="cidade">Cidade:</label>
             <input id="cidade" name="cidade" formControlName="cidade">
-            <div *ngIf="form.get('endereco.cidade')?.errors?.['required'] && form.touched || form.get('endereco.cidade')?.errors?.['required'] && formDir.submitted">
+            <div *ngIf="form.get('endereco.cidade')?.errors?.['required'] && form.touched || form.get('endereco.cidade')?.errors?.['required'] && form.touched">
                 <span>Campo é obrigatório!</span>
             </div>
         </div>
         <div>
             <label for="estado">Estado:</label>
             <input id="estado" name="estado" formControlName="estado">
-            <div *ngIf="form.get('endereco.estado')?.errors?.['required'] && form.touched || form.get('endereco.estado')?.errors?.['required'] && formDir.submitted">
+            <div *ngIf="form.get('endereco.estado')?.errors?.['required'] && form.touched || form.get('endereco.estado')?.errors?.['required'] && form.touched">
                 <span>Campo é obrigatório!</span>
             </div>
         </div>
         <div>
             <label for="cep">CEP:</label>
             <input id="cep" name="cep" formControlName="cep">
-            <div *ngIf="form.get('endereco.cep')?.errors?.['required'] && form.touched || form.get('endereco.cep')?.errors?.['required'] && formDir.submitted">
+            <div *ngIf="form.get('endereco.cep')?.errors?.['required'] && form.touched || form.get('endereco.cep')?.errors?.['required'] && form.touched">
                 <span>Campo é obrigatório!</span>
             </div>
         </div>
     </div>
 
     <div *ngIf="currentTab === 2" formGroupName="conta">
-        <h3>Conta Bancária</h3>
-        <div>
+        <h3>Contas Bancárias</h3>
+        <button type="button" (click)="addConta()">Adicionar Conta</button>
+    
+        <div *ngFor="let contaGroup of getContasControls(); let i = index" [formGroupName]="i">
+          <div>
             <label for="agencia">Agência:</label>
-            <input type="text" name="agencia" id="agencia" formControlName="agencia">
-            <div *ngIf="form.get('conta.agencia')?.errors?.['required'] && form.touched || form.get('conta.agencia')?.errors?.['required'] && formDir.submitted">
+            <input type="text" name="agencia" formControlName="agencia">
+            <div *ngIf="contaGroup.get('agencia')?.errors?.['required'] && form.touched">
                 <span>Campo é obrigatório!</span>
             </div>
-        </div>
-        <div>
+          </div>
+          <div>
             <label for="numero">Nº Conta:</label>
-            <input type="text" name="numero" id="numero" formControlName="numero">
-            <div *ngIf="form.get('conta.numero')?.errors?.['required'] && form.touched || form.get('conta.numero')?.errors?.['required'] && formDir.submitted">
+            <input type="text" name="numero" formControlName="numero">
+            <div *ngIf="contaGroup.get('numero')?.errors?.['required'] && form.touched">
                 <span>Campo é obrigatório!</span>
             </div>
-        </div>
-        <div>
+          </div>
+          <div>
             <label for="tipoConta">Tipo Conta:</label>
-            <input type="text" name="tipoConta" id="tipoConta" formControlName="tipoConta">
-            <div *ngIf="form.get('conta.tipoConta')?.errors?.['required'] && form.touched || form.get('conta.tipoConta')?.errors?.['required'] && formDir.submitted">
+            <input type="text" name="tipoConta" formControlName="tipoConta">
+            <div *ngIf="contaGroup.get('tipoConta')?.errors?.['required'] && form.touched">
                 <span>Campo é obrigatório!</span>
             </div>
-        </div>
-        <div>
+          </div>
+          <div>
             <label for="nomeBanco">Nome Banco:</label>
-            <input type="text" name="nomeBanco" id="nomeBanco" formControlName="nomeBanco">
-            <div *ngIf="form.get('conta.nomeBanco')?.errors?.['required'] && form.touched || form.get('conta.nomeBanco')?.errors?.['required'] && formDir.submitted">
+            <input type="text" name="nomeBanco" formControlName="nomeBanco">
+            <div *ngIf="contaGroup.get('nomeBanco')?.errors?.['required'] && form.touched">
                 <span>Campo é obrigatório!</span>
             </div>
+          </div>
+    
+          <!-- Transações -->
+          <div formArrayName="transacoes">
+            <h4>Transações</h4>
+            <button type="button" (click)="addTransacao(i)">Adicionar Transação</button>
+    
+            <div *ngFor="let transacao of getTransacoesControls(contaGroup); let j = index" [formGroupName]="j">
+              <div>
+                <label for="valor">Valor:</label>
+                <input type="text" formControlName="valor">
+                <div *ngIf="transacao.get('valor')?.errors?.['required'] && form.touched">
+                    <span>Campo é obrigatório!</span>
+                </div>
+              </div>
+              <div>
+                <label for="data">Data:</label>
+                <input type="text" formControlName="data">
+                <div *ngIf="transacao.get('data')?.errors?.['required'] && form.touched">
+                    <span>Campo é obrigatório!</span>
+                </div>
+              </div>
+              <button type="button" (click)="removeTransacao(i, j)">Remover Transação</button>
+            </div>
+          </div>
+          
+          <button type="button" (click)="removeConta(i)">Remover Conta</button>
         </div>
     </div>
 
     <div *ngIf="currentTab === 3" formArrayName="telefone">
         <h3>Telefone:</h3>
         <table>
-            <thead>
-                <tr>
-                    <th>DDD</th>
-                    <th>Número</th>
-                    <th>Ações</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr *ngFor="let tel of telefone.controls; let i = index" [formGroupName]="i">
-                    <td>
-                        <input type="text" formControlName="ddd">
-                    </td>
-                    <td>
-                        <input type="text" formControlName="numeroTelefone">
-                    </td>
-                    <td>
-                        <button type="button" (click)="removeTelefone(i)">Remover</button>
-                    </td>
-                </tr>
-            </tbody>
+          <thead>
+            <tr>
+              <th>DDD</th>
+              <th>Número</th>
+              <th>Ações</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let tel of telefone.controls; let i = index" [formGroupName]="i">
+              <td>
+                <input type="text" formControlName="ddd">
+              </td>
+              <td>
+                <input type="text" formControlName="numeroTelefone">
+              </td>
+              <td>
+                <button type="button" (click)="removeTelefone(i)">Remover</button>
+              </td>
+            </tr>
+          </tbody>
         </table>
         <button type="button" (click)="addTelefone()">Adicionar</button>
-    </div>
+      </div>
 
     <div class="buttons">
         <button type="button" (click)="prevTab()" [disabled]="currentTab === 0">Anterior</button>

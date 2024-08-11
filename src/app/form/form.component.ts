@@ -33,12 +33,7 @@ export class FormComponent {
         cep: ['', Validators.required]
       }),
 
-      conta: this.formBuildService.group({
-        agencia: ['', Validators.required],
-        numero: ['', Validators.required],
-        tipoConta: ['', Validators.required],
-        nomeBanco: ['', Validators.required]
-      }),
+      conta: this.formBuildService.array([]),
 
       telefone: this.formBuildService.array([])
     });
@@ -50,12 +45,15 @@ export class FormComponent {
     return this.form.get('telefone') as FormArray;
   }
 
+  get conta() {
+    return this.form.get("conta") as FormArray;
+  }
+
   public addTelefone(): void {
     const setTelefone = this.formBuildService.group({
       ddd: ['', Validators.required],
       numeroTelefone: ['', Validators.required]
     })
-
     this.telefone.push(setTelefone);
   }
 
@@ -71,13 +69,52 @@ export class FormComponent {
     this.currentTab--;
   }
 
+  addConta() {
+    const contaForm = this.formBuildService.group({
+      agencia: ['', Validators.required],
+      numero: ['', Validators.required],
+      tipoConta: ['', Validators.required],
+      nomeBanco: ['', Validators.required],
+      transacoes: this.formBuildService.array([])  // Lista de transações para cada conta
+    });
+
+    this.conta.push(contaForm);
+  }
+
+  public removeConta(index: number) {
+    this.conta.removeAt(index);
+  }
+
+  // Método para adicionar uma nova transação a uma conta específica
+  public addTransacao(contaIndex: number) {
+    const transacaoForm = this.formBuildService.group({
+      valor: ['', Validators.required],
+      data: ['', Validators.required]
+    });
+
+    const transacoes = this.conta.at(contaIndex).get('transacoes') as FormArray;
+    transacoes.push(transacaoForm);
+  }
+
+  // Método para remover uma transação de uma conta específica
+  public removeTransacao(contaIndex: number, transacaoIndex: number) {
+    const transacoes = this.conta.at(contaIndex).get('transacoes') as FormArray;
+    transacoes.removeAt(transacaoIndex);
+  }
+
+  getContasControls(): FormGroup[] {
+    return (this.form.get('conta') as FormArray).controls as FormGroup[];
+  }
+  
+  getTransacoesControls(contaGroup: FormGroup): FormGroup[] {
+    return (contaGroup.get('transacoes') as FormArray).controls as FormGroup[];
+  }
+
   public isGroupValidAndFilled(group: FormGroup): boolean {
-    for (let control in group.controls) {
-      if (group.controls[control].invalid || group.controls[control].value === '') {
-        return false;
-      }
-    }
-    return true;
+    return Object.keys(group.controls).every(controlName => {
+      const control = group.get(controlName);
+      return control && control.valid && control.value !== '';
+    });
   }
 
   public isFormArrayValidAndFilled(array: FormArray): boolean {
@@ -85,7 +122,7 @@ export class FormComponent {
       return false;
     }
     for (let control of array.controls) {
-      if (control.invalid || control.value.tipo === '' || control.value.numero === '') {
+      if (control.invalid) {
         return false;
       }
     }
@@ -122,15 +159,37 @@ export class FormComponent {
     }
   }
 
-  public insertingData(data: any): void {
-    this.form.patchValue(data);
+  public insertingData(dataForm: any): void {
+    // Atualiza os dados principais
+    this.form.patchValue({
+      identificacao: dataForm.identificacao,
+      endereco: dataForm.endereco
+    });
 
-    /*
-      Case was list.
-    */
-    this.telefone.clear();
-    data.telefone.forEach((tel: any) => {
-      this.telefone.push(this.formBuildService.group(tel));
+    // Limpa e adiciona os dados das contas
+    const contaArray = this.form.get('conta') as FormArray;
+    contaArray.clear();
+    dataForm.conta.forEach((conta: any) => {
+      const contaForm = this.formBuildService.group({
+        agencia: [conta.agencia, Validators.required],
+        numero: [conta.numero, Validators.required],
+        tipoConta: [conta.tipoConta, Validators.required],
+        nomeBanco: [conta.nomeBanco, Validators.required],
+        transacoes: this.formBuildService.array([])
+      });
+
+      conta.transacoes.forEach((transacao: any) => {
+        (contaForm.get('transacoes') as FormArray).push(this.formBuildService.group(transacao));
+      });
+
+      contaArray.push(contaForm);
+    });
+
+    // Limpa e adiciona os dados dos telefones
+    const telefoneArray = this.form.get('telefone') as FormArray;
+    telefoneArray.clear();
+    dataForm.telefone.forEach((tel: any) => {
+      telefoneArray.push(this.formBuildService.group(tel));
     });
   }
 
